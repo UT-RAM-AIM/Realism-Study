@@ -71,9 +71,9 @@ def nodule_list(ann_, num_, all_slices, patient_id_):
                         x_ = True
                 if x_:
                     if all_slices[slice_].ImagePositionPatient[2] < 0:  # Some scans are saved upside down
-                        slist_.append(slice_)  # lengthy_
+                        slist_.append(lengthy_ - slice_ - 1)
                     else:
-                        slist_.append(lengthy_ - slice_ - 1)  # lengthy_
+                        slist_.append(slice_)  # lengthy_
                     cmlist_.append(cmask)
                     cblist_.append(cbbox)
                     inlist_.append(index_)
@@ -450,7 +450,7 @@ def main(patient_id_, input_folder_, radiologists_, class1_, class2_, class3_, r
 #################################
 # Parameters and initialization #
 #################################
-INPUT_FOLDER = 'D:/B3CARE/LIDC-IDRI/101-200/LIDC-IDRI'  # LIDC-IDRI folder
+INPUT_FOLDER = 'D:/B3CARE/LIDC-IDRI/1-100/LIDC-IDRI'  # LIDC-IDRI folder
 OUTPUT_FOLDER = 'D:/B3CARE/LIDC-IDRI/SIS'  # Output folder.
 class1 = [-400, 150]  # HU clip for the background
 class2 = [5, 145]  # HU clip for soft tissues
@@ -464,11 +464,19 @@ all_data = False  # if False, 20% of all slices per scan (including nodule slice
 # Iteratively append the patient numbers. i.e. patient ID: 20 -> 0020; patient ID: 1 -> 0001
 # Determine range of patient IDs to run in one go
 run_list = []
-i = 101
-while i < 151:
-    num = '0%s' % i
+start = 85
+stop = 100
+while start <= stop:
+    if start < 10:
+        num = '000%s' % start
+    elif 10 <= start < 100:
+        num = '00%s' % start
+    elif 100 <= start < 1000:
+        num = '0%s' % start
+    else:
+        num = '%s' % start
     run_list.append(num)
-    i += 1
+    start += 1
 
 # Preprocess and Generation of semantic labels and save lung nodule annotations/locations
 for patient_id in run_list:
