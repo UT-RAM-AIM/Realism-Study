@@ -134,7 +134,7 @@ def semantic_nonROI(image_, range1_, range2_, range3_, range4_):
 
 
 def threshold_lung_parts(image_):
-    ### Code sourced from https://www.kaggle.com/c/data-science-bowl-2017#tutorial
+    # Code sourced from https://www.kaggle.com/c/data-science-bowl-2017#tutorial ###
 
     middle = image_[100:400, 100:400]
     kmeans = KMeans(n_clusters=2).fit(np.reshape(middle, [np.prod(middle.shape), 1]))
@@ -146,7 +146,8 @@ def threshold_lung_parts(image_):
 
 
 def kmeans_lung(image_):
-    ### Code sourced from https://www.kaggle.com/c/data-science-bowl-2017#tutorial
+    # Code sourced from https://www.kaggle.com/c/data-science-bowl-2017#tutorial ###
+
     thresh_img = threshold_lung_parts(image_)
     eroded = morphology.erosion(thresh_img, np.ones([3, 3]))
     dilation = morphology.dilation(eroded, np.ones([5, 5]))
@@ -167,7 +168,7 @@ def kmeans_lung(image_):
 
 
 def depict_contour(image_, param_, param2_):
-    ### param_: area of depicted contour, using as lower bound threshold; param2_ for higher bound threshold
+    # param_: area of depicted contour, using as lower bound threshold; param2_ for higher bound threshold #
 
     # create binary mask by KMeans
     thresh_img = threshold_lung_parts(image_)
@@ -229,6 +230,7 @@ def contour_to_mask(num1_, num2_, contours_, image_, kmeans_):
 def depict_semantic_lung(image_, semantic_map_, param_, lower_bound_, param2_):
     # lower_bound_: similarity threshold between KMeans and FindCountour. Normally set to 0.7, but for diagnostic
     # set to 0 since true lung regions can be skipped.
+
     contours_ = depict_contour(image_, param_, param2_)
     if len(contours_) >= 1:
         km_ = kmeans_lung(image_)
@@ -269,7 +271,7 @@ def depict_semantic_lung(image_, semantic_map_, param_, lower_bound_, param2_):
         if max(result_list_) >= lower_bound_:
             maxim = result_list_.index(max(result_list_))
             # maxim = 2
-            # for some special diagnostic cases, seting maxim = 1or2 solves the issues magically
+            # for some special diagnostic cases, setting maxim = 1or2 solves the issues magically
             semantic_map_binary_ = semantic_list_[maxim]
             semantic_map_[semantic_map_binary_ == 1] = 4
 
@@ -286,8 +288,9 @@ def save_figure(img, label_type, slice_num, patient_id_, output_folder_, my_dpi=
         output_folder = output_folder_ + '/image/'
         if not os.path.exists(output_folder):
             os.mkdir(output_folder)
-        file = patient_id_ + '-%s.jpg' % slice_num
-        plt.figure(figsize=(679 / my_dpi, 679 / my_dpi), dpi=my_dpi)
+        file = patient_id_ + '-%s.png' % slice_num
+        # 665 or my_dpi might need to be adjusted depending on your screen resolution
+        plt.figure(figsize=(665 / my_dpi, 665 / my_dpi), dpi=my_dpi)
         plt.imshow(img, cmap=plt.cm.gray, vmin=img.min(), vmax=img.max())
         plt.axis('off')
         plt.savefig(os.path.join(output_folder, file), bbox_inches='tight', pad_inches=0, dpi=my_dpi)
@@ -301,11 +304,16 @@ def save_figure(img, label_type, slice_num, patient_id_, output_folder_, my_dpi=
         label = label.convert("L")
         label.save(output_folder + file)
     elif label_type == 'semantic_color':
+        # cmap in manuscript review:
+        # cmap = matplotlib.colors.ListedColormap(['#000000', '#08094B', '#52648e', '#7ba4e9', '#86ac41', '#fbb41a'])
+        # cmap in manuscript ps:
+        # cmap = matplotlib.colors.ListedColormap(['black', 'darkblue', 'slateblue', 'darkcyan', 'mediumaquamarine', 'yellow'])
         output_folder = output_folder_ + '/put/'
         if not os.path.exists(output_folder):
             os.mkdir(output_folder)
         file = patient_id_ + '-%s.png' % slice_num
-        plt.figure(figsize=(679 / my_dpi, 679 / my_dpi), dpi=my_dpi)
+        # 665 or my_dpi might need to be adjusted depending on your screen resolution
+        plt.figure(figsize=(665 / my_dpi, 665 / my_dpi), dpi=my_dpi)
         plt.imshow(img)
         plt.axis('off')
         plt.savefig(os.path.join(output_folder, file), bbox_inches='tight', pad_inches=0, dpi=my_dpi)
@@ -334,10 +342,10 @@ def depict_semantic_nodule(image_, patient_id_, temp_, semantic_map_, output_fol
                 print("Unknown malignancy: %s" % mlist_[w])
 
     semantic_map_ = semantic_map_.astype(np.int32)
-    ##### Save Ground Truth
+    # Save Ground Truth ###
     save_figure(image_, 'gt', temp_, patient_id_, output_folder_, my_dpi=600)
 
-    ##### Semantic Processing
+    # Semantic Processing ###
     segment_map_ = np.zeros((semantic_map_.shape[0], semantic_map_.shape[0]), np.uint8)
     segment_map_[semantic_map_ == 0] = 0
     segment_map_[semantic_map_ == 1] = 1
@@ -345,13 +353,13 @@ def depict_semantic_nodule(image_, patient_id_, temp_, semantic_map_, output_fol
     segment_map_[semantic_map_ == 3] = 3
     segment_map_[semantic_map_ == 4] = 4
     segment_map_[semantic_map_ == 5] = 5
-    segment_map_[semantic_map_ == 6] = 6
-    segment_map_[semantic_map_ == 7] = 7
+    segment_map_[semantic_map_ == 6] = 6    # change to 5 for no differentiation in nodule type
+    segment_map_[semantic_map_ == 7] = 7    # change to 5 for no differentiation in nodule type
 
-    ##### Save Semantic Label
+    # Save Semantic Label ###
     save_figure(segment_map_, 'semantic', temp_, patient_id_, output_folder_, my_dpi=600)
 
-    ##### Save Colorized Semantic Label
+    # Save Colorized Semantic Label ##
     save_figure(segment_map_, 'semantic_color', temp_, patient_id_, output_folder_, my_dpi=600)
 
 
@@ -450,8 +458,8 @@ def main(patient_id_, input_folder_, radiologists_, class1_, class2_, class3_, r
 #################################
 # Parameters and initialization #
 #################################
-INPUT_FOLDER = 'D:/B3CARE/LIDC-IDRI/1-100/LIDC-IDRI'  # LIDC-IDRI folder
-OUTPUT_FOLDER = 'D:/B3CARE/LIDC-IDRI/SIS'  # Output folder.
+INPUT_FOLDER = '...'  # LIDC-IDRI folder
+OUTPUT_FOLDER = '...'  # Output folder.
 class1 = [-400, 150]  # HU clip for the background
 class2 = [5, 145]  # HU clip for soft tissues
 class3 = [145, 150]  # HU clip for high dense tissues
@@ -464,7 +472,8 @@ all_data = False  # if False, 20% of all slices per scan (including nodule slice
 # Iteratively append the patient numbers. i.e. patient ID: 20 -> 0020; patient ID: 1 -> 0001
 # Determine range of patient IDs to run in one go
 run_list = []
-start = 85
+# change to start and stop of preference
+start = 0
 stop = 100
 while start <= stop:
     if start < 10:
