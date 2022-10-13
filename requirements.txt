@@ -8,6 +8,7 @@ Pillow==9.2.0
 piq==0.7.0
 pydicom==2.3.0
 pylidc==0.2.3
+pytorch-fid==0.2.1
 scikit-image==0.19.3
 scikit-learn==1.1.2
 torch==1.12.1
