@@ -1,5 +1,5 @@
 # Computer-Assisted-Learning
-Information for the manuscript: "Perceptual Study of Semantically Synthesized 2D Chest CT Image Realism: Quantitative Metrics and Expert Opinion". 
+Information for the manuscript: "Artificial CT Images can Enhance Variation of Case Images in Diagnostic Radiology Skills Training". 
 Repository contains code for Computer Assisted Learning; data preprocessing, obtaining synthetic images and realism assessment.
 
 ## Data preprocessing
