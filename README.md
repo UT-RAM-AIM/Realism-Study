@@ -62,3 +62,12 @@ python qualitative_perceptual_study.py
 ```
 
 will create 60 folders with quartets of images, and saves information about their origin as .json. Change paths to output directory, and original and synthetic images before running.
+
+## Manipulations
+To (re)move or resize nodule labels in the semantic label map use:
+
+```
+python move_and_crop.py
+```
+
+Change paths to the 'label' folder and your preferred output folder. Furthermore, it is necessary to adjust the name of the semantic label map you want to adjust and if you want to resize or move the nodule label, and if so, how much rescaling or move to where. It will save a new semantic label map in the 'label' folder in your preferred output folder as well as a visual label map in a 'put' folder.
