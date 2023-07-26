@@ -1,5 +1,5 @@
 # Computer-Assisted-Learning
-Information for the manuscript: "Perceptual Study of Semantically Synthesized 2D Chest CT Image Realism: Quantitative Metrics and Expert Opinion". 
+Information for the manuscript: "Artificial CT Images can Enhance Variation of Case Images in Diagnostic Radiology Skills Training". 
 Repository contains code for Computer Assisted Learning; data preprocessing, obtaining synthetic images and realism assessment.
 
 ## Data preprocessing
@@ -13,7 +13,7 @@ Change input and output folder directories before running. Will convert the DICO
 
 <img src="figures/LIDC-IDRI-0994-119_GT.jpg" width="200" />   <img src="figures/LIDC-IDRI-0994-119_numlab.png" width="200" />   <img src="figures/LIDC-IDRI-0994-119.png" width="200" />  
 
-The pre-processed data can be divided into a combined training and validation set, and a test set. In the manuscript, subjects 1 through 900 are used for training validation and 901 through 1010 for testing. Additionally, for the experiments with a smaller training set, the first 2% of the full training set are used. In case of 0.3%, only subject 1 is used (without 20% sampling).
+The pre-processed data can be divided into a combined training and validation set, and a test set. In the manuscript, subjects 1 through 900 are used for training validation and 901 through 1010 for testing. Additionally, for Control Set 1, the first 2% of the full training set is used. In case of Control Set 2, only 0.3% of the data, but more specifically, only subject 0001 is used (without 20% sampling).
 
 ## Obtaining synthetic images
 As semantic image synthesis network, the model developed by Park et al. is used, referred to as [SPADE](https://github.com/NVlabs/SPADE) or sometimes as GauGAN. Clone their repo and install their requirements:
