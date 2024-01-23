@@ -74,4 +74,9 @@ Change paths to the 'label' folder and your preferred output folder. Furthermore
 
 ## Citation
 
-Citation to manuscript: TBD
+Citation to manuscript: 
+
+E. I. S. Hofmeijer, S.-C. Wu, R. Vliegenthart, C. H. Slump, F. van der Heijden,
+and C. O. Tan, “Artificial CT images can enhance variation of case images in
+diagnostic radiology skills training,” Insights into Imaging, vol. 14, no. 1, p. 186,
+Nov. 2023. doi: 10.1186/s13244-023-0150
